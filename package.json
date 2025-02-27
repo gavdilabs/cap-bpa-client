@@ -23,7 +23,7 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "npm run prebuild && tsc --skipLibCheck",
-    "release": "npm run build && npm pub --public",
+    "release": "npm run build && npm pub --access public",
     "test": "jest"
   },
   "peerDependencies": {
