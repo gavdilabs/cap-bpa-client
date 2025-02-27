@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "SAP BPA Workflow service library",
   "author": "Simon Vestergaard Laursen",
+  "repository": "github:gavdilabs/cap-bpa-client",
   "license": "Apache-2.0",
   "private": false,
   "keywords": [
