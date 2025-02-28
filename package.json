@@ -1,6 +1,6 @@
 {
   "name": "@gavdi/cap-bpa-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SAP BPA Workflow service library",
   "author": "Simon Vestergaard Laursen",
   "repository": "github:gavdilabs/cap-bpa-client",

@@ -23,6 +23,7 @@ import {
   WorkflowModel,
 } from "./types";
 import { QueryBuilder } from "./query-builder";
+import { constructQuery } from "./utils";
 
 /**
  * Universal logger for all created clients.
@@ -77,11 +78,11 @@ export default class WorkflowServiceClient {
    * tasks that originate from other editors.
    */
   public async getTaskList(
-    queryBuilder?: QueryBuilder,
+    queryParam?: QueryBuilder | string,
   ): Promise<TaskInstanceList> {
     try {
       const client = await this.getClient();
-      const query = `${this.TASK_INSTANCES_URI}${queryBuilder?.build() ?? ""}`;
+      const query = `${this.TASK_INSTANCES_URI}${constructQuery(queryParam)}`;
       const res = await client.get(query);
       return res;
     } catch (e) {
@@ -195,11 +196,11 @@ export default class WorkflowServiceClient {
    * The returned task definitions are sorted in descending order of their creation time.
    */
   public async getTaskDefinitionList(
-    queryBuilder?: QueryBuilder,
+    queryParam?: QueryBuilder | string,
   ): Promise<TaskDefinitionList> {
     try {
       const client = await this.getClient();
-      const query = `${this.TASK_DEFINITIONS_URI}${queryBuilder?.build() ?? ""}`;
+      const query = `${this.TASK_DEFINITIONS_URI}${constructQuery(queryParam)}`;
       const res = await client.get(query);
       return res;
     } catch (e) {
@@ -212,11 +213,11 @@ export default class WorkflowServiceClient {
    * Retrieves a list of the latest version of each deployed workflow definition. The request can be parameterized.
    */
   public async getWorkflowDefinitionList(
-    queryBuilder?: QueryBuilder,
+    queryParam?: QueryBuilder | string,
   ): Promise<WorkflowDefinitionList> {
     try {
       const client = await this.getClient();
-      const query = `${this.WORKFLOW_DEFINITIONS_URI}${queryBuilder?.build() ?? ""}`;
+      const query = `${this.WORKFLOW_DEFINITIONS_URI}${constructQuery(queryParam)}`;
       const res = await client.get(query);
       return res;
     } catch (e) {
@@ -261,11 +262,11 @@ export default class WorkflowServiceClient {
    */
   public async findWorkflowDefinitionVersionList(
     id: string,
-    queryBuilder?: QueryBuilder,
+    queryParam?: QueryBuilder | string,
   ): Promise<WorkflowDefinitionVersion[]> {
     try {
       const client = await this.getClient();
-      const query = `${this.WORKFLOW_DEFINITIONS_URI}/${id}/versions${queryBuilder?.build() ?? ""}`;
+      const query = `${this.WORKFLOW_DEFINITIONS_URI}/${id}/versions${constructQuery(queryParam)}`;
       const res = await client.get(query);
       return res;
     } catch (e) {
@@ -349,11 +350,11 @@ export default class WorkflowServiceClient {
    * unless noted otherwise. Empty parameters are treated as if they were not given.
    */
   public async getWorkflowInstanceList(
-    queryBuilder?: QueryBuilder,
+    queryParam?: QueryBuilder | string,
   ): Promise<WorkflowInstanceList> {
     try {
       const client = await this.getClient();
-      const query = `${this.WORKFLOW_INSTANCES_URI}${queryBuilder?.build() ?? ""}`;
+      const query = `${this.WORKFLOW_INSTANCES_URI}${constructQuery(queryParam)}`;
       const res = await client.get(query);
       return res;
     } catch (e) {
@@ -401,10 +402,12 @@ export default class WorkflowServiceClient {
    * You can at most specify 10000 instances to delete in one API call.
    */
   public async deleteWorkflowInstances(
-    queryBuilder: QueryBuilder,
+    queryParam: QueryBuilder | string,
   ): Promise<void> {
     try {
-      const workflows = await this.getWorkflowInstanceList(queryBuilder);
+      const workflows = await this.getWorkflowInstanceList(
+        constructQuery(queryParam),
+      );
       const payload: WorkflowInstancesUpdatePayload =
         workflows?.map((el) => ({
           id: el.id as string,

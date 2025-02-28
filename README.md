@@ -76,7 +76,7 @@ All available endpoints configured for this client can be found on the official 
 ## TODO
 
 - [ ] Expand documentation to include all available options and how to use them
-- [ ] Allow for custom direct string query injection without using query builder
+- [x] Allow for custom direct string query injection without using query builder (Done for 1.0.1)
 
 ---
 
